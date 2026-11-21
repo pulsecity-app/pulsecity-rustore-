@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "365780290062",
+    "project_id": "pulsecity-3136b",
+    "storage_bucket": "pulsecity-3136b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365780290062:android:37e64bd5685ef0037e4a5f",
+        "android_client_info": {
+          "package_name": "com.pulsecity.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQhb_pk9o6lqMM-06ybjHN4i7aoURZSuA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+
+}

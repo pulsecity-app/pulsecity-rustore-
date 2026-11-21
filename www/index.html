@@ -4948,18 +4948,34 @@
 async function syncNativeFcmTokenToCloud(tokenValue) {
   if (!tokenValue) return;
   nativeFcmToken = tokenValue;
-  localStorage.setItem('pulseCity_fcm_token', tokenValue);
+  try { localStorage.setItem('pulseCity_fcm_token', tokenValue); } catch (e) {}
+
   if (!supabaseClient || !myUsername) return;
+
+  const payload = {
+    username: myUsername,
+    city: selectedCity || null,
+    fcm_token: tokenValue,
+    platform: 'android',
+    updated_at: new Date().toISOString()
+  };
+
   try {
-    await supabaseClient.from('push_subscriptions').upsert([{
-      username: myUsername,
-      city: selectedCity,
-      fcm_token: tokenValue,
-      platform: 'android',
-      updated_at: new Date().toISOString()
-    }], { onConflict: 'username' });
-  } catch (e) {}
+    const { error } = await supabaseClient
+      .from('push_subscriptions')
+      .upsert([payload], { onConflict: 'username' });
+
+    if (error) {
+      console.error('Supabase upsert push_subscriptions error:', error);
+      if (typeof showPulseAlert === 'function') {
+        showPulseAlert('Ошибка записи FCM-токена: ' + error.message);
+      }
+    }
+  } catch (e) {
+    console.error('syncNativeFcmTokenToCloud exception:', e);
+  }
 }
+
 
 async function initCapacitorAndroidPush() {
   const cap = window.Capacitor;

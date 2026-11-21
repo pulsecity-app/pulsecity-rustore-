@@ -1,0 +1,14 @@
+{
+  "name": "pulsecity-android",
+  "version": "1.0.0",
+  "description": "PulseCity Android wrapper via Capacitor",
+  "private": true,
+  "scripts": {
+    "cap:sync": "npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  }
+}

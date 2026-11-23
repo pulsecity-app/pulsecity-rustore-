@@ -3780,7 +3780,12 @@
         openUserProfileModal(authorUsername, avatarUrl);
     }
 
-    function selectCity(c) {
+    
+async function selectCity(c) {
+
+
+
+
         selectedCity = c;
         localStorage.setItem('pulseCity_v4_city', c);
         document.getElementById('currentCity').textContent = c;
@@ -3791,7 +3796,11 @@
         lastKnownMaxPostId = 0;
         lastKnownMaxMsgId = 0;
         initPinnedChallengeCard();
-        registerServiceWorkerAndPush();
+          await registerServiceWorkerAndPush();
+  if (typeof syncPushSubscriptionToCloud === 'function') {
+    await syncPushSubscriptionToCloud();
+  }
+
         closeModal('cityModal');
         loadPostsFromCloud(true);
         loadPublicMessages();

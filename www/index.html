@@ -1712,16 +1712,29 @@
     }
 
     async function syncPushSubscriptionToCloud(sub) {
-        if (!supabaseClient || !myUsername || !sub) return;
-        try {
-            await supabaseClient.from('push_subscriptions').upsert([{
-                username: myUsername,
-                city: selectedCity,
-                subscription: JSON.stringify(sub),
-                updated_at: new Date().toISOString()
-            }], { onConflict: 'username' });
-        } catch (e) {}
+  if (!supabaseClient || !myUsername) return;
+  try {
+    let activeSub = sub;
+    if (!activeSub && 'serviceWorker' in navigator && 'PushManager' in window) {
+      const reg = await navigator.serviceWorker.ready;
+      activeSub = await reg.pushManager.getSubscription();
     }
+    if (!activeSub) return;
+
+    await supabaseClient
+      .from('push_subscriptions')
+      .upsert(
+        [{
+          username: myUsername,
+          city: selectedCity,
+          subscription: JSON.stringify(activeSub),
+          updated_at: new Date().toISOString(),
+        }],
+        { onConflict: 'username' }
+      );
+  } catch (e) {}
+}
+
 
     async function registerServiceWorkerAndPush() {
         if (!('serviceWorker' in navigator)) return false;

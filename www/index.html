@@ -1762,9 +1762,9 @@
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                    'Urgency': 'high'
-                },
-                body: JSON.stringify({
+          },
+        body: JSON.stringify({
+
                     recipient,
                     city: city || selectedCity,
                     sender: myUsername || 'PulseCity',
